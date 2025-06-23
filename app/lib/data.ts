@@ -172,7 +172,8 @@ export async function fetchCustomers() {
     const customers = await sql<CustomerField[]>`
       SELECT
         id,
-        name
+        name,
+        email
       FROM customers
       ORDER BY name ASC
     `;
@@ -216,3 +217,9 @@ export async function fetchFilteredCustomers(query: string) {
     throw new Error('Failed to fetch customer table.');
   }
 }
+export type Customer = {
+  id: string;
+  name: string;
+  email: string;
+};
+
