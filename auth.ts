@@ -41,3 +41,13 @@ export const { auth, signIn, signOut } = NextAuth({
         }),
     ],
 });
+
+// Provide a simple App Router compatible handler that wraps the NextAuth `auth`
+// function exported above. This wrapper casts the incoming Request to the type
+// NextAuth expects at runtime. We keep the cast local to avoid propagating the
+// `any` type across the codebase.
+export const handler = async (req: Request) => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore - NextAuth's handler expects a different Request type
+    return auth(req as any);
+};
