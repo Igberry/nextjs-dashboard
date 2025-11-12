@@ -11,6 +11,12 @@ export async function POST(request: Request) {
         return NextResponse.json({ message: 'Missing credentials' }, { status: 400 });
     }
 
+    // Check if POSTGRES_URL is set
+    if (!process.env.POSTGRES_URL) {
+        console.error('POSTGRES_URL environment variable is not set');
+        return NextResponse.json({ message: 'Database configuration error' }, { status: 500 });
+    }
+
     try {
         // Check if user already exists
         const existing = await sql`SELECT * FROM users WHERE email = ${email}`;
